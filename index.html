@@ -278,7 +278,6 @@
 <body>
 
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
-<audio id="bgMusic" src="assets/song.mp3" loop></audio>
 
 <div class="hearts" id="hearts"></div>
 
@@ -496,6 +495,23 @@ function startCounter(){
   update();
   setInterval(update, 60000);
 }
+</script>
+
+<!-- كود الموسيقى المضاف -->
+<audio id="bgMusic" src="assets/song.mp3" loop autoplay></audio>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const music = document.getElementById("bgMusic");
+        
+        music.play().catch(error => {
+            console.log("المتصفح منع التشغيل التلقائي، بانتظار تفاعل المستخدم...");
+            document.body.addEventListener("click", function() {
+                music.play();
+                document.getElementById('musicBtn').textContent = '❚❚';
+            }, { once: true });
+        });
+    });
 </script>
 
 </body>
