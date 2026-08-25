@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فاطمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<style>
+  :root{
+    --pink-bg:#fdf1f4;
+    --pink-soft:#fbe4ec;
+    --pink-mid:#f3c6d6;
+    --pink-deep:#d4507e;
+    --pink-text:#8a3a5c;
+    --rose-dark:#a13a5c;
+    --cream:#fffaf9;
+    --gold:#d9a774;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    min-height:100%;
+    background:
+      linear-gradient(180deg, rgba(253,238,242,0.82), rgba(246,206,222,0.88)),
+      url('assets/roses-bg.jpeg') center top / cover no-repeat;
+    background-color:#fbdfe8;
+    font-family:'Amiri', serif;
+    color:#6b2e46;
+    overflow-x:hidden;
+  }
+  .frame{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    position:relative;
+  }
+  .panel{
+    max-width:640px;
+    width:100%;
+    background:
+      linear-gradient(180deg, #fff8fa, #fdeef3);
+    border:8px solid #f0b8cd;
+    border-radius:18px;
+    box-shadow:
+      0 0 0 3px #fce0ea,
+      0 20px 50px rgba(212,80,126,0.25);
+    padding:40px 30px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .panel::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border:1px solid rgba(212,80,126,0.35);
+    border-radius:12px;
+    pointer-events:none;
+  }
+  h1.name{
+    font-family:'Aref Ruqaa', serif;
+    font-size:48px;
+    color:#c14374;
+    letter-spacing:2px;
+    margin-bottom:6px;
+    text-shadow:0 2px 6px rgba(212,80,126,0.2);
+  }
+  .sub{
+    font-size:16px;
+    color:#a15271;
+    opacity:0.9;
+    margin-bottom:24px;
+    letter-spacing:1px;
+  }
+  .divider{
+    width:80px;
+    height:2px;
+    background:#e58bab;
+    margin:0 auto 26px;
+    position:relative;
+  }
+  .divider::before{
+    content:"❀";
+    position:absolute;
+    top:-13px;
+    left:50%;
+    transform:translateX(-50%);
+    color:#d4507e;
+    font-size:20px;
+    background:#fdeef3;
+    padding:0 8px;
+  }
+  #stage1{ }
+  #stage2, #stage3, #stage4{ display:none; }
+  .btn{
+    font-family:'Amiri', serif;
+    font-size:18px;
+    background:transparent;
+    color:#c14374;
+    border:2px solid #e58bab;
+    padding:11px 30px;
+    border-radius:30px;
+    cursor:pointer;
+    letter-spacing:1px;
+    transition:all 0.35s ease;
+    margin-top:10px;
+  }
+  .btn:hover{
+    background:#e58bab;
+    color:#fff;
+    box-shadow:0 0 22px rgba(212,80,126,0.4);
+  }
+  .letter{
+    font-size:18px;
+    line-height:2.05;
+    color:#7a3352;
+    text-align:right;
+    margin-bottom:24px;
+  }
+  .hearts{
+    position:fixed;
+    top:0; left:0; width:100%; height:100%;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:5;
+  }
+  .heart{
+    position:absolute;
+    bottom:-40px;
+    color:#e0688f;
+    font-size:20px;
+    animation:rise linear forwards;
+    opacity:0.85;
+  }
+  @keyframes rise{
+    to{ transform:translateY(-110vh) rotate(360deg); opacity:0; }
+  }
+  .petal{
+    position:absolute;
+    top:-30px;
+    animation:fall linear forwards;
+    opacity:0.85;
+    pointer-events:none;
+  }
+  @keyframes fall{
+    to{ transform:translateY(105vh) rotate(320deg); opacity:0.2; }
+  }
+  .signature{
+    font-family:'Aref Ruqaa', serif;
+    font-size:22px;
+    color:#c14374;
+    margin-top:16px;
+  }
+  .final-heart{
+    font-size:44px;
+    color:#d4507e;
+    margin-bottom:16px;
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.15); }
+  }
+  .name-frame{
+    width:100%;
+    max-width:280px;
+    border-radius:14px;
+    margin:0 auto 18px;
+    display:block;
+    box-shadow:0 10px 30px rgba(212,80,126,0.25);
+    border:3px solid #fff;
+  }
+  .round-photo{
+    width:150px;
+    height:150px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #fff;
+    box-shadow:0 8px 22px rgba(212,80,126,0.3);
+    margin:0 auto 16px;
+    display:block;
+  }
+  .wide-photo{
+    width:100%;
+    max-width:320px;
+    border-radius:14px;
+    margin:14px auto;
+    display:block;
+    box-shadow:0 10px 26px rgba(212,80,126,0.25);
+    border:3px solid #fff;
+  }
+  .gif-row{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:14px;
+    margin:16px 0;
+    flex-wrap:wrap;
+  }
+  .gif-row img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+  }
+  .counter-wrap{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:22px 0 28px;
+  }
+  .count-box{
+    background:rgba(212,80,126,0.08);
+    border:1px solid #e58bab;
+    border-radius:12px;
+    padding:12px 14px;
+    min-width:74px;
+  }
+  .count-num{
+    font-size:28px;
+    color:#c14374;
+    font-weight:700;
+    font-family:'Aref Ruqaa', serif;
+  }
+  .count-label{
+    font-size:12px;
+    color:#a15271;
+    opacity:0.85;
+    margin-top:4px;
+  }
+  .anniv-msg{
+    font-size:17px;
+    line-height:1.9;
+    color:#8a3a5c;
+    margin-bottom:8px;
+  }
+  .music-btn{
+    position:fixed;
+    top:16px;
+    left:16px;
+    z-index:20;
+    background:#fff;
+    border:2px solid #e58bab;
+    color:#c14374;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    font-size:18px;
+    cursor:pointer;
+    box-shadow:0 4px 14px rgba(212,80,126,0.3);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .cute-strip{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin:18px 0;
+    flex-wrap:wrap;
+  }
+  .cute-strip img{
+    width:56px;
+    height:56px;
+    object-fit:contain;
+    border-radius:10px;
+  }
+  @media (max-width:480px){
+    h1.name{font-size:36px;}
+    .letter{font-size:16px;}
+  }
+</style>
+</head>
+<body>
+
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
+<audio id="bgMusic" src="assets/song.mp3" loop></audio>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="frame">
+  <div class="panel">
+
+    <!-- المرحلة الأولى -->
+    <div id="stage1">
+      <img src="assets/fatima-name.jpeg" alt="فاطمة" class="name-frame animate__animated animate__fadeInDown">
+      <p class="sub animate__animated animate__fadeIn animate__delay-1s">هذي الصفحة إلك وحدك</p>
+      <div class="divider animate__animated animate__zoomIn animate__delay-1s"></div>
+      <p style="font-size:18px; margin-bottom:26px; color:#8a3a5c;" class="animate__animated animate__fadeIn animate__delay-2s">
+        عندي إشي أريد أكوله بس ما أعرف أبدا وين... جربي تضغطين وشوفي
+      </p>
+      <button class="btn animate__animated animate__pulse animate__delay-3s animate__slower" onclick="goStage2()" style="animation-iteration-count: infinite;">افتحي القلب 💗</button>
+    </div>
+
+    <!-- المرحلة الثانية: سؤال تفاعلي -->
+    <div id="stage2">
+      <img src="assets/knight-princess.jpeg" alt="" class="wide-photo">
+      <h1 class="name" style="font-size:30px;">سؤال بسيط...</h1>
+      <div class="divider"></div>
+      <p style="font-size:18px; margin-bottom:26px;">
+        هل تعرفين انو صورتج ما تفارق بالي؟
+      </p>
+      <button class="btn animate__animated animate__pulse" onclick="goStage3()" style="animation-iteration-count: infinite;">إي أعرف، قوليلي الباقي</button>
+    </div>
+
+    <!-- المرحلة الثالثة: الرسالة -->
+    <div id="stage3">
+      <div class="final-heart">♥</div>
+      <div class="divider"></div>
+      <div class="letter" id="letterText"></div>
+      <img src="assets/love-notes.jpeg" alt="" id="loveNotesImg" class="wide-photo" style="max-width:230px; opacity:0;">
+      <div class="gif-row">
+        <img src="assets/turtle-heart.gif" alt="">
+        <img src="assets/doves.jpeg" alt="" style="width:70px;height:70px;object-fit:cover;border-radius:12px;">
+        <img src="assets/turtle-cute.gif" alt="">
+      </div>
+      <p class="signature" id="signature" style="opacity:0;">إلج، دايماً</p>
+      <button class="btn" id="toAnnivBtn" onclick="goStage4()" style="opacity:0; margin-top:20px;">مفاجأة الذكرى 🎉</button>
+    </div>
+
+    <!-- المرحلة الرابعة: عداد سنة الحب -->
+    <div id="stage4">
+      <div class="divider" style="margin-bottom:16px;"></div>
+      <h1 class="name" style="font-size:30px;">سنة كاملة وياج</h1>
+      <img src="assets/couple-walking.jpeg" alt="" class="wide-photo" style="max-width:220px;">
+      <p class="anniv-msg">من ٢٥ / ٨ / ٢٠٢٥ ولحد هسه، وكل يوم أحلى من اللي قبله</p>
+
+      <div class="counter-wrap">
+        <div class="count-box"><div class="count-num" id="numDays">0</div><div class="count-label">يوم</div></div>
+        <div class="count-box"><div class="count-num" id="numMonths">0</div><div class="count-label">شهر تقريبي</div></div>
+        <div class="count-box"><div class="count-num" id="numHours">0</div><div class="count-label">ساعة</div></div>
+      </div>
+
+      <img src="assets/fatima-acrostic.jpeg" alt="" class="wide-photo" style="max-width:200px;">
+
+      <div class="cute-strip">
+        <img src="assets/cat-hug.jpeg" alt="">
+        <img src="assets/cat-berries.jpeg" alt="">
+        <img src="assets/virtual-hug.gif" alt="">
+      </div>
+
+      <p style="font-size:18px; color:#c14374; margin-bottom:8px;">كل هذا الوقت... وقلبي ما تعب منج ولا لحظة 💗</p>
+      <p class="signature">سنة أولى من عمر طويل وياج، فاطمة</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function toggleMusic(){
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicBtn');
+  if (audio.paused){
+    audio.play();
+    btn.textContent = '❚❚';
+  } else {
+    audio.pause();
+    btn.textContent = '♪';
+  }
+}
+
+function spawnHearts(count){
+  const container = document.getElementById('hearts');
+  const symbols = ['♥','❤','♡'];
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+      h.style.left = Math.random()*100 + 'vw';
+      h.style.fontSize = (14 + Math.random()*18) + 'px';
+      h.style.animationDuration = (4 + Math.random()*4) + 's';
+      container.appendChild(h);
+      setTimeout(()=>h.remove(), 9000);
+    }, i*150);
+  }
+}
+
+function spawnPetals(){
+  const container = document.getElementById('hearts');
+  setInterval(()=>{
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const hue = Math.random() > 0.5 ? '#d4507e' : '#e0a3bb';
+    p.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1 C10 1 11 3 8 5 C11 3 15 4 15 7 C15 10 11 9 8 8 C11 9 10 14 8 14 C6 14 7 9 8 8 C5 9 1 10 1 7 C1 4 5 3 8 5 C5 3 6 1 8 1 Z" fill="${hue}" opacity="0.85"/></svg>`;
+    p.style.left = Math.random()*100 + 'vw';
+    const scale = 0.7 + Math.random()*1.1;
+    p.style.transform = `scale(${scale})`;
+    p.style.animationDuration = (6 + Math.random()*5) + 's';
+    container.appendChild(p);
+    setTimeout(()=>p.remove(), 12000);
+  }, 900);
+}
+spawnPetals();
+
+function goStage2(){
+  const s1 = document.getElementById('stage1');
+  const s2 = document.getElementById('stage2');
+  s1.classList.add('animate__animated','animate__fadeOutUp');
+  setTimeout(()=>{
+    s1.style.display = 'none';
+    s2.style.display = 'block';
+    s2.classList.add('animate__animated','animate__fadeInUp');
+    spawnHearts(6);
+  }, 600);
+}
+
+function goStage3(){
+  const s2 = document.getElementById('stage2');
+  const s3 = document.getElementById('stage3');
+  s2.classList.add('animate__animated','animate__fadeOutUp');
+  setTimeout(()=>{
+    s2.style.display = 'none';
+    s3.style.display = 'block';
+    spawnHearts(18);
+
+    gsap.from('.final-heart', {duration:0.8, scale:0, opacity:0, ease:'back.out(1.7)'});
+    gsap.from('.divider', {duration:0.8, scaleX:0, delay:0.3});
+
+    const lines = [
+      "فاطمة...",
+      "من أول ما دخلتي حياتي، كل شي صار إله معنى أحلى.",
+      "ضحكتج تريحني، وصوتج أول شي أشتاق إله.",
+      "ما أريد أكتبلج كلام حفظته، أريد تعرفين بس: انتِ الطمأنينة اللي دوّرتها زماناً.",
+      "أحبج، وهاي الصفحة أبسط طريقة گدرت أوصلج فيها هواي اللي بگلبي.",
+      "دايماً وياج 💗"
+    ];
+
+    const box = document.getElementById('letterText');
+    const spans = [];
+    lines.forEach((line)=>{
+      const span = document.createElement('span');
+      span.className = 'reveal-line';
+      span.textContent = line;
+      span.style.display = 'block';
+      span.style.marginBottom = '4px';
+      box.appendChild(span);
+      spans.push(span);
+    });
+
+    gsap.from(spans, {
+      duration:1,
+      y:20,
+      opacity:0,
+      stagger:0.9,
+      delay:0.6,
+      ease:'power2.out',
+      onComplete:()=>{
+        gsap.to('#loveNotesImg', {duration:1, opacity:1, ease:'power1.out'});
+        gsap.to('#signature', {duration:1, opacity:1, y:-5, ease:'power1.out', delay:0.2});
+        gsap.to('#toAnnivBtn', {duration:1, opacity:1, delay:0.5});
+      }
+    });
+  }, 600);
+}
+
+function goStage4(){
+  const s3 = document.getElementById('stage3');
+  const s4 = document.getElementById('stage4');
+  s3.classList.add('animate__animated','animate__fadeOutUp');
+  setTimeout(()=>{
+    s3.style.display = 'none';
+    s4.style.display = 'block';
+    s4.classList.add('animate__animated','animate__fadeInUp');
+
+    if (window.confetti){
+      confetti({ particleCount: 120, spread: 90, origin: { y: 0.6 }, colors: ['#d4507e','#f0b8cd','#e58bab','#fff0f5'] });
+      setTimeout(()=>confetti({ particleCount: 80, spread: 120, origin: { y: 0.4 }, colors: ['#d4507e','#e0a3bb'] }), 500);
+    }
+
+    spawnHearts(20);
+    startCounter();
+  }, 600);
+}
+
+function startCounter(){
+  const start = new Date('2025-08-25T00:00:00');
+  const numDays = document.getElementById('numDays');
+  const numMonths = document.getElementById('numMonths');
+  const numHours = document.getElementById('numHours');
+
+  function update(){
+    const now = new Date();
+    const diffMs = now - start;
+    const days = Math.floor(diffMs / (1000*60*60*24));
+    const hours = Math.floor(diffMs / (1000*60*60));
+    const months = (diffMs / (1000*60*60*24*30.44)).toFixed(1);
+    numDays.textContent = days;
+    numMonths.textContent = months;
+    numHours.textContent = hours;
+  }
+  update();
+  setInterval(update, 60000);
+}
+</script>
+
+</body>
+</html>
