@@ -278,7 +278,6 @@
 <body>
 
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
-<audio id="bgMusic" src="assets/song.mp3" loop></audio>
 
 <div class="hearts" id="hearts"></div>
 
@@ -421,20 +420,13 @@ function goStage3(){
     gsap.from('.final-heart', {duration:0.8, scale:0, opacity:0, ease:'back.out(1.7)'});
     gsap.from('.divider', {duration:0.8, scaleX:0, delay:0.3});
 
-    const lines = [const poemFatima = [
-  "يَا فَاطِمُ، يَا نُوراً يَفُوقُ بَدِيرَهَا",
-  "وَيَأْبَى فُؤَادِي أَنْ يُحِبَّ سِوِيرَهَا",
-  "رَأَيْتُكِ فِي عَيْنَيَّ عُمْراً مُخَبَّأً",
-  "تَغَارُ مِنَ الشَّمْسِ الْجَمِيلَةِ نُورَهَا",
-  "كَأَنَّكِ لَمْ تَخْلُقْ مِنَ الطِّينِ مِثْلَنَا",
-  "بَلِ اللَّهُ بِالأَنْوَارِ صَاغَ عَبِيرَهَا",
-  "سَقَيْتِ صَدَى أَيَّامِي بِعَذْبِ وِصَالِكِ",
-  "فَصَارَ رَبِيعُ الْعُمْرِ يَزْهُو مَسِيرَهَا",
-  "سَأَبْقَى أَحُوكُ الشِّعْرَ فِيكِ قَصِيدَةً",
-  "يَحِنُّ لَهَا قَلْبِي وَيُعْلِنُ سِرَّهَا"
-];
-
-      
+    const lines = [
+      "فاطمة...",
+      "من أول ما دخلتي حياتي، كل شي صار إله معنى أحلى.",
+      "ضحكتج تريحني، وصوتج أول شي أشتاق إله.",
+      "ما أريد أكتبلج كلام حفظته، أريد تعرفين بس: انتِ الطمأنينة اللي دوّرتها زماناً.",
+      "أحبج، وهاي الصفحة أبسط طريقة گدرت أوصلج فيها هواي اللي بگلبي.",
+      "دايماً وياج 💗"
     ];
 
     const box = document.getElementById('letterText');
@@ -504,23 +496,19 @@ function startCounter(){
   setInterval(update, 60000);
 }
 </script>
-    }
-    update();
-    setInterval(update, 60000);
-}
-</script>
 
-<!-- ضع الكود هنا تماماً -->
-<audio id="bg-music" src="assets/audio/your-song.mp3" loop autoplay></audio>
+<!-- كود الموسيقى المضاف -->
+<audio id="bgMusic" src="assets/song.mp3" loop autoplay></audio>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const music = document.getElementById("bg-music");
+        const music = document.getElementById("bgMusic");
         
         music.play().catch(error => {
             console.log("المتصفح منع التشغيل التلقائي، بانتظار تفاعل المستخدم...");
             document.body.addEventListener("click", function() {
                 music.play();
+                document.getElementById('musicBtn').textContent = '❚❚';
             }, { once: true });
         });
     });
